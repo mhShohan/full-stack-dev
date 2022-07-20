@@ -1,37 +1,44 @@
-const categoryServices = require("../services/categoryServices");
-const customError = require("../utils/error");
-
+const categoryServices = require('../services/categoryServices');
+const customError = require('../utils/error');
+const isValid = require('../utils/isValid');
 
 const categoryController = {
-    post: async (req, res, next) => {
+    getAll: async (_req, res, next) => {
         try {
-            const isCategoryExist = await categoryServices.findByTitle(req.body);
-            if (isCategoryExist) throw customError('Category Name is already Exist!', 400);
-            const category = await categoryServices.create(req.body);
-            res.status(201).json({ message: 'new category created!', data: category });
+            const categories = await categoryServices.get();
+            res.status(200).json(categories);
+        } catch (error) {
+            next(error);
+        }
+    },
+    create: async (req, res, next) => {
+        try {
+            const isExist = await categoryServices.isExists('title', req.body.title);
+            if (isExist) throw customError('Category Already Exists', 400);
+
+            const category = categoryServices.create({ title: req.body.title });
+            await category.save();
+            res.status(200).json(category);
         } catch (error) {
             next(error);
         }
     },
     delete: async (req, res, next) => {
+        const { id } = req.params;
         try {
-            const isIdExist = await categoryServices.findById(req.params.id);
-            if (!isIdExist) throw customError('Category not found!', 400);
-            const result = await categoryServices.delete(req.params.id);
-            res.status(203).json({ message: result.deletedCount + ' deleted!' });
+            if (!isValid.id(id)) throw customError('Category Not Found!', 404);
+            const isExist = await categoryServices.isExists('_id', req.params.id);
+            if (!isExist) throw customError('Category Not Found!', 404);
+
+            await categoryServices.delete(req.params.id);
+            res.status(203).json({ message: 'Delete Successfully!' });
         } catch (error) {
             next(error);
         }
     },
-    getAll: async (_req, res, next) => {
-        try {
-            const result = await categoryServices.getAll();
-            res.status(200).json(result);
-        } catch (error) {
-            next(error);
-        }
-    }
 };
+
+
 
 
 module.exports = categoryController;

@@ -1,21 +1,10 @@
-const categoryDB = require('../database/models/Category');
+const Category = require('../model/Category');
 
 const categoryServices = {
-    create: ({ title }) => {
-        return categoryDB.create(title);
-    },
-    findByTitle: ({ title }) => {
-        return categoryDB.findByTitle(title);
-    },
-    findById: (id) => {
-        return categoryDB.findById(id);
-    },
-    delete: (id) => {
-        return categoryDB.delete(id);
-    },
-    getAll: () => {
-        return categoryDB.findAll();
-    }
+    isExists: (key, value) => Category.findOne({ [key]: value }),
+    get: () => Category.find({}),
+    create: (body) => new Category(body),
+    delete: (id) => Category.findByIdAndDelete(id),
 };
 
 
