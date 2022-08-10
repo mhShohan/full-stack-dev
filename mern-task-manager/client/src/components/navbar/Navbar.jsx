@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import avatar from '../../assets/image/avatar.png';
 
 const Navbar = () => {
@@ -13,10 +14,10 @@ const Navbar = () => {
           />
         </li>
         <li className="mr-3 hover:text-zinc-50">
-          <a href="#">Mehdi Hasan Shohan</a>
+          <Link to="/profile">Mehdi Hasan Shohan</Link>
         </li>
         <li className="mr-2 hover:text-zinc-50">
-          <a href="#">Logout!</a>
+          <Link to="/logout">Logout!</Link>
         </li>
       </ul>
     </nav>

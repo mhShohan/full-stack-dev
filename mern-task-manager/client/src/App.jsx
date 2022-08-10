@@ -8,6 +8,7 @@ import AllTasks from './pages/AllTasks';
 import CompletedTasks from './pages/CompletedTasks';
 import PendingTasks from './pages/PendingTasks';
 import CanceledTask from './pages/CanceledTask';
+import ProfilePage from './pages/ProfilePage';
 
 export default function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/completed" element={<CompletedTasks />} />
             <Route path="/pending" element={<PendingTasks />} />
             <Route path="/canceled" element={<CanceledTask />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </Layout>
       ) : (

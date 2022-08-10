@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import avatar from '../assets/image/avatar.png';
 
 const ProfileInfo = () => {
@@ -11,9 +12,12 @@ const ProfileInfo = () => {
       />
       <h1>Mehdi Hasan Shohan</h1>
       <h3>mshohanhasan@gmail.com</h3>
-      <button className=" mt-2 py-1 px-6 border-solid border-2 border-zinc-500 rounded-sm hover:bg-zinc-500">
-        Edit profile
-      </button>
+      <Link
+        to="/profile"
+        className=" mt-2 py-1 px-6 border-solid border-2 border-zinc-500 rounded-sm hover:bg-zinc-500"
+      >
+        View profile
+      </Link>
     </div>
   );
 };

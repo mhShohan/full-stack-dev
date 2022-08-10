@@ -1,7 +1,7 @@
 import React from 'react';
 
 function PendingTasks() {
-  return <div>PendingTasks</div>;
+  return <div className="p-8 flex flex-wrap">PendingTasks</div>;
 }
 
 export default PendingTasks;
