@@ -1,19 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors({
+    origin: ['http://localhost:3000'],
+    credentials: true
+}));
 
 // routes
 app.use('/api/v1', require('./routes'));
 
 
 //global error handler
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
     let status = err.status || 500;
     res.status(status).json({ errors: err });
 });

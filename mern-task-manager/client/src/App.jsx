@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Layout from './components/layout/Layout';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Homepage from './pages/Homepage';
@@ -9,9 +9,14 @@ import CompletedTasks from './pages/CompletedTasks';
 import PendingTasks from './pages/PendingTasks';
 import CanceledTask from './pages/CanceledTask';
 import ProfilePage from './pages/ProfilePage';
+import axios from 'axios';
+import { Context } from './context/ContextProvider';
+
+axios.defaults.withCredentials = true;
 
 export default function App() {
-  const [isLogin, setIsLogin] = useState(true);
+  const { isLogin } = useContext(Context);
+
   return (
     <BrowserRouter>
       {isLogin ? (

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const error = require('../utils/error');
 const { generateToken } = require('../utils/utils');
 const userServices = require('../services/userServices');
+const jwt = require('jsonwebtoken');
 
 const userController = {};
 
@@ -69,22 +70,23 @@ userController.logout = async (_req, res, next) => {
         next(e);
     }
 };
-userController.checkLogin = (_req, res, next) => {
+userController.checkLogin = (req, res, next) => {
     try {
         const token = req.cookies.token;
         if (!token) throw error('Please Login or Register!', 400, 'unauthorized');
         jwt.verify(token, process.env.JWT);
 
         res.json(true);
-
     } catch (err) {
-        console.log(err);
-        let errors = {};
-        if (err.type === 'unauthorized') {
-            errors.message = 'Unauthorized, Please Login or Register!';
-            errors.status = 401;
-        }
-        next(errors);
+        // console.log(errors);
+        // let errors = {};
+
+        // if (err.type === 'unauthorized') {
+        //     errors.message = 'Unauthorized, Please Login or Register!';
+        //     errors.status = 401;
+        // }
+        // next(errors);
+        return res.json(false);
     }
 };
 

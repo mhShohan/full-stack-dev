@@ -16,8 +16,8 @@ const Input = ({ item, value, handleChange }) => {
       border-b-2 
     border-zinc-600
     bg-slate-200 
-      rounded-sm 
-      mb-4"
+      rounded-sm  mt-2
+      "
     />
   );
 };
