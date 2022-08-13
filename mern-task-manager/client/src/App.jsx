@@ -11,6 +11,8 @@ import CanceledTask from './pages/CanceledTask';
 import ProfilePage from './pages/ProfilePage';
 import axios from 'axios';
 import { Context } from './context/ContextProvider';
+import CreateNewTask from './pages/CreateNewTask';
+import EditTaskPage from './pages/EditTaskPage';
 
 axios.defaults.withCredentials = true;
 
@@ -24,9 +26,11 @@ export default function App() {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/all" element={<AllTasks />} />
+            <Route path="/create" element={<CreateNewTask />} />
+            <Route path="/edit" element={<EditTaskPage />} />
             <Route path="/completed" element={<CompletedTasks />} />
-            <Route path="/pending" element={<PendingTasks />} />
-            <Route path="/canceled" element={<CanceledTask />} />
+            <Route path="/inprogress" element={<PendingTasks />} />
+            <Route path="/cancelled" element={<CanceledTask />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </Layout>

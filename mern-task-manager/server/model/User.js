@@ -22,9 +22,10 @@ const userSchema = new Schema({
             }, message: props => `Invalid Email!`
         }
     }, title: {
-        type: String,
+        type: String, default: ''
     },
-    description: { type: String },
+    avatar: { type: String, default: 'http://localhost:4000/api/v1/user/avatar' },
+    description: { type: String, default: '' },
     password: {
         type: String,
         required: [true, 'Must be provide a password!']

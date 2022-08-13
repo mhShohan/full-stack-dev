@@ -3,10 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 const links = [
   { id: 0, type: 'Dashboard', link: '/dashboard' },
+  { id: 6, type: 'Create New Task', link: '/create' },
   { id: 1, type: 'All Tasks', link: '/all' },
-  { id: 2, type: 'Completed Task', link: '/completed' },
-  { id: 3, type: 'Pending Task', link: '/pending' },
-  { id: 4, type: 'Canceled Task', link: '/canceled' },
+  { id: 2, type: 'Completed', link: '/completed' },
+  { id: 3, type: 'In Progress', link: '/inprogress' },
+  { id: 4, type: 'Cancelled ', link: '/cancelled' },
 ];
 
 const SideNav = () => {

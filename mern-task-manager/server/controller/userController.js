@@ -3,6 +3,7 @@ const error = require('../utils/error');
 const { generateToken } = require('../utils/utils');
 const userServices = require('../services/userServices');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 const userController = {};
 
@@ -70,13 +71,16 @@ userController.logout = async (_req, res, next) => {
         next(e);
     }
 };
-userController.checkLogin = (req, res, next) => {
+userController.checkLogin = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         if (!token) throw error('Please Login or Register!', 400, 'unauthorized');
-        jwt.verify(token, process.env.JWT);
+        const user = jwt.verify(token, process.env.JWT);
 
-        res.json(true);
+        const loggedUser = await userServices.findByEmail(user.email);
+
+
+        res.json({ status: true, user: loggedUser });
     } catch (err) {
         // console.log(errors);
         // let errors = {};
@@ -88,6 +92,17 @@ userController.checkLogin = (req, res, next) => {
         // next(errors);
         return res.json(false);
     }
+};
+userController.avatar = (req, res, next) => {
+    fs.readFile('./public/avatar.png', (err, data) => {
+        if (err) {
+            res.send(err);
+            console.log(err);
+        } else {
+            res.write(data);
+            res.end();
+        }
+    });
 };
 
 

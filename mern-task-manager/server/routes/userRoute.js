@@ -5,5 +5,6 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/logout', userController.logout);
 router.get('/check-login', userController.checkLogin);
+router.get('/avatar', userController.avatar);
 
 module.exports = router;
