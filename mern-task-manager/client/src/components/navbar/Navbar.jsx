@@ -2,11 +2,12 @@ import axios from 'axios';
 import React from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import avatar from '../../assets/image/avatar.png';
 import { Context } from '../../context/ContextProvider';
 
 const Navbar = () => {
   const { state } = useContext(Context);
+
+  console.log(state);
 
   async function logOut() {
     try {
@@ -19,11 +20,11 @@ const Navbar = () => {
   return (
     <nav className="flex flex-auto justify-end align-bottom px-6 py-2 text-zinc-300 ">
       <ul className="flex items-center ">
-        <li className="mr-1">
+        <li className="mr-1 w-[40px] h-[40px]">
           <img
-            src={avatar}
+            src={state.user.avatar}
             alt="avatar"
-            className="w-[40px] h-[40px] rounded-full cursor-pointer"
+            className="crop-img rounded-full cursor-pointer"
           />
         </li>
         <li className="mr-3 hover:text-zinc-50 capitalize">

@@ -20,7 +20,15 @@ const TaskCard = ({ task }) => {
     >
       <h1 className="text-xl pt-2">{task.title}</h1>
       <p className="text-sm  text-justify">{task.description}</p>
-      <p className="text-sm mt-4 bg-amber-600 w-20 px-1">{task.status}</p>
+      {task.status === 'COMPLETED' && (
+        <p className="text-sm mt-4 bg-green-600 w-20 px-1">{task.status}</p>
+      )}
+      {task.status === 'INPROGRESS' && (
+        <p className="text-sm mt-4 bg-amber-600 w-20 px-1">{task.status}</p>
+      )}
+      {task.status === 'CANCELLED' && (
+        <p className="text-sm mt-4 bg-red-600 w-20 px-1">{task.status}</p>
+      )}
 
       <div className="absolute bottom-1 left-1 flex justify-between items-center">
         <div>

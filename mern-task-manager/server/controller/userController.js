@@ -3,6 +3,8 @@ const error = require('../utils/error');
 const { generateToken } = require('../utils/utils');
 const userServices = require('../services/userServices');
 const jwt = require('jsonwebtoken');
+const formidable = require('formidable');
+const cloudinary = require('cloudinary');
 const fs = require('fs');
 
 const userController = {};
@@ -104,6 +106,67 @@ userController.avatar = (req, res, next) => {
         }
     });
 };
+userController.updateAvatar = (req, res, next) => {
 
+    const form = formidable({ multiples: false });
+    form.parse(req, async (err, fields, files) => {
+
+        try {
+            if (files.avatar.size <= 1000000) {
+                if (
+                    files.avatar.mimetype === 'image/jpeg' ||
+                    files.avatar.mimetype === 'image/jpg' ||
+                    files.avatar.mimetype === 'image/JPG' ||
+                    files.avatar.mimetype === 'image/png'
+                ) {
+                    //upload file to cloudinary
+                    cloudinary.config({
+                        cloud_name: 'dw7t3knez',
+                        api_key: '354988245318918',
+                        api_secret: 'D8qdzevWEO3k-rcz2L5oNAsd36A',
+                        secure: true
+                    });
+
+                    const response = await cloudinary.uploader.upload(files.avatar.filepath);
+
+                    res.json({ url: response.url });
+                } else throw error('Please select an image file!', 400, 'notImage');
+            } else throw error('Image must be less then 1MB', 400, 'largeImage');
+        } catch (err) {
+            const errors = {};
+            console.log(err);
+            if (err.type === 'notImage') {
+                errors.message = 'Please select an image file!';
+            }
+            if (err.type === 'largeImage') {
+                errors.message = 'Image must be less then 1MB!';
+            }
+            next(errors);
+        }
+
+    });
+
+
+
+};
+userController.update = async (req, res, next) => {
+    const { firstName, lastName, email, title, description, avatar } = req.body;
+    try {
+        const user = await userServices.findByEmail(email);
+
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.avatar = avatar || user.avatar;
+        user.title = title || user.title;
+        user.description = description || user.description;
+
+        await user.save();
+
+        res.json(user);
+
+    } catch (err) {
+        next(err);
+    }
+};
 
 module.exports = userController;

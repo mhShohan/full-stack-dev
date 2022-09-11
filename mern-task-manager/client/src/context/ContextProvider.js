@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const Context = createContext();
 
-const url = 'http://localhost:4000/api/v1';
+const url = process.env.REACT_APP_URL;
 
 
 
@@ -34,6 +34,7 @@ const reducer = (state, action) => {
 
         case 'DELETE_TASK':
             return { ...state, tasks: state.tasks.filter(task => task._id !== action.payload) };
+
         default:
             return state;
     }
