@@ -22,7 +22,7 @@ userController.register = async (req, res, next) => {
 
         const token = generateToken({ name: user.firstName + ' ' + user.lastName, _id: user._id, email: user.email });
 
-        res.cookie('token', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }).status(203).json(true);
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 1000 * 60 * 60 * 24 }).status(203).json(true);
     } catch (err) {
 
         let errors = { status: 400 };
@@ -55,7 +55,7 @@ userController.login = async (req, res, next) => {
 
         const token = generateToken({ name: isUserExist.firstName + ' ' + isUserExist.lastName, _id: isUserExist._id, email: isUserExist.email });
 
-        res.cookie('token', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }).status(200).json(true);
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 1000 * 60 * 60 * 24 }).status(200).json(true);
     } catch (err) {
         const errors = { status: err.status };
 
@@ -68,7 +68,7 @@ userController.login = async (req, res, next) => {
 };
 userController.logout = async (_req, res, next) => {
     try {
-        return res.cookie('token', '', { httpOnly: true, maxAge: 0 }).status(203).send();
+        return res.cookie('token', '', { httpOnly: true, secure: true, sameSite: 'none', maxAge: 0 }).status(203).send();
     } catch (e) {
         next(e);
     }

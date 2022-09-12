@@ -29,7 +29,7 @@ const LoginForm = () => {
         email: formState.email.value,
         password: formState.password.value,
       };
-      await axios.post('http://localhost:4000/api/v1/user/login', data);
+      await axios.post(`${process.env.REACT_APP_URL}/user/login`, data);
       window.location = '/dashboard';
     } catch (error) {
       setErrors(error.response.data.errors);

@@ -46,7 +46,7 @@ const RegisterForm = () => {
       });
     }
     try {
-      await axios.post('http://localhost:4000/api/v1/user/register', data);
+      await axios.post(`${process.env.REACT_APP_URL}/user/register`, data);
       window.location = '/dashboard';
     } catch (error) {
       setErrors(error.response.data.errors);

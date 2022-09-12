@@ -11,7 +11,7 @@ const Navbar = () => {
 
   async function logOut() {
     try {
-      await axios.get('http://localhost:4000/api/v1/user/logout');
+      await axios.get(`${process.env.REACT_APP_URL}/user/logout`);
       window.location = '/';
     } catch (error) {
       console.log(error);
