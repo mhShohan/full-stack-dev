@@ -47,10 +47,22 @@ db.collectionName.updateMany(query, { $currentDate: { createdAt: true, updatedAt
 
 // Array update operators
 /**
- * $
+ * $            => $ is the dynamic value depends on the query
  * $push        => {$push: {cart: 'item1' }} and {{$push: {cart: {$each: ['item' , 'item2']} }}}
  * $pop         => {$push: {cart: 1 }}                  => remove the last element of Array
  * $addToSet    => {$push: {cart: 'item1' }}            => push to array if same element is not exist in array
  * $pull        => {$pull: {'person.age': {$lt: 18} }}  => remove all element in the array if match the give condition
  * $pullAll     => {$pullAll: {'person.age': 18 }}      => remove all element to the array that match the specific value
  */
+
+
+/// Update Array with nested documents
+db.collectionName.updateOne({ name: 'name2' }, {
+    $set: {
+        "cart.$.name": 'mh'
+    }
+});
+
+
+// Increment field value and update field
+db.collectionName.updateOne(query, { $inc: { count: Number } });
