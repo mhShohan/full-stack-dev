@@ -1,11 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 
-const sendResponse = (res, {
-    contentType = 'application/json',
-    status = 200,
-    body = {}
-}) => {
+const sendResponse = (res, { contentType = 'application/json', status = 200, body = {} }) => {
     res.writeHead(status, { contentType: contentType });
     res.write(JSON.stringify(body));
     res.end();
@@ -58,5 +54,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(4000, () => {
-    console.log('server is listing 4000');
+    console.log('server is listing on port:4000');
 });
