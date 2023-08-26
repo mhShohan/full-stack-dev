@@ -53,6 +53,13 @@
 
   ```
 
+## Basic Steps to contribute
+
+- Implement new features, create a new branch with name of that feature, select/add all files relate that feature.
+- Create and issue on github by assigning own-self and labels
+- `git commit -m ""` and `git push origin branch_name`
+- Create a pull request
+
 ## Things to DO or NOT to DO
 
 - Don't commit directly to `main` branch. That's totally forbidden and risky. You have to create a new branch for every new feature.
