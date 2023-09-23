@@ -8,7 +8,7 @@ https://swagger.io/docs/specification/about/
 
 I plan to implement a REST API for a blog management system. Several special options will be available. All of the posts and comments made by users are accessible publicly. Users must be logged in to their accounts in order to make posts or comments. Each user has control over their own posts and comments. Everything needs to be managed by the admin. The user can add a custom cover image to the post.
 
-### Check List - Expert
+### Check List
 
 - Elaborate the requirements and create a formal / semi formal SRS
 - Analyze The SRS
@@ -107,6 +107,42 @@ One of the most common uses for YAML is to create configuration files
 - Sequence of Sequence
 - Mapping of Mappings
 - Nested Collections
+
+# Entities / Schema / Model
+
+What we need to store?
+
+- User
+  - id - string
+  - name - string
+  - email - string
+  - password - string (hashed)
+  - role - enum[user, admin] default: user
+  - status - enum[pending, approved, block, declined] default: pending
+  - Timestamps
+- Articles
+  - id - string
+  - title - string
+  - body - text
+  - cover - string
+  - status - enum[draft, published] default: draft
+  - authorId - relation with author
+  - Timestamps
+- Comments
+  - id - string
+  - body - text
+  - authorId - relation with author
+  - articleId - relation with article
+  - status enum[public, private]
+  - Timestamps
+
+# ER Diagram (Entity Relationship Diagram)
+
+### How to Store.
+
+![Blog ER Diagram](./img/blog-er-diagram.jpg)
+
+# API Endpoint
 
 # OpenAPI Specification (Study Own-self)
 
