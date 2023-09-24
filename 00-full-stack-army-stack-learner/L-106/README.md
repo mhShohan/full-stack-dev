@@ -144,8 +144,293 @@ What we need to store?
 
 # API Endpoint
 
+### Namespace
+
+- Public - Anyone with the API access
+- Amin/Private - Internal use only( restricted, different cors policy)
+
+### We will follow no namespace at this moment
+
+- Articles
+  - GET (Public) - `/articles?query=params` - return a list of articles, we can also pass query params like sort, filter, pagination etc.
+  - POST (private) - `/articles` - create new article and return it
+  - GET (Public) - `/articles/:id?expand=author,comment` - return a single article. Use expand query params to populate the selected resources
+  - PUT (private) - `/articles/:id` - create or update existing article completely
+  - PATCH (private) - `/articles/:id` - update existing article's properties
+  - DELETE (private) - `/articles/:id` - hard delete existing article
+  - GET (Public) - `/articles/:id/comments` - return a list of comments
+  - GET (public) - `/articles/:id/author` - return the author of given article
+  - GET (private) - `/articles/self` - return all articles of user
+- Comments
+  - GET - `/comments?query=params` - return a list of comments based on the given articleId
+
+# Endpoints Formal view
+
+### Article
+
+<details>
+  <summary>GET All Articles</summary>
+
+Method: GET  
+Access: Public  
+Path: /articles?query=params
+
+### Query:
+
+    - page (default 1) - current page number
+    - limit (default 10) - the number of objects should be returned
+    - sortType (default desc) - the type of sort, it could be either asc or desc
+    - sortBy (default updatedAt) - the property that will used to sort. It could be either updatedAt or title.
+    - search - the search term to filter articles based on the titles.
+
+### Response:
+
+    - success
+      - data [list of article]
+        - id
+        - title
+        - cover
+        - author
+          - id
+          - name
+      - pagination
+        - page
+        - limit
+        - totalPage
+        - totalArticle
+        - nextPage
+        - prevPage
+      - links
+        - self
+        - nextPage
+        - prevPage
+        - comments
+        - author
+    - 400
+      - message
+    - 500
+      - message
+
+</details>
+<details>
+  <summary> Create new Article</summary>
+
+Method: POST  
+Access: private  
+path: /article
+
+### Request Body
+
+    - title
+    - body
+    - cover (optional)
+    - status (default draft)
+
+### Response
+
+    - 201
+      - message
+      - article
+      - links
+        - self
+        - author
+        - comments
+    - 400
+      - message
+      - data (list of error message)
+        - field
+        - message
+    - 401
+      - message
+
+</details>
+
+<details>
+  <summary>Get a single book</summary>
+
+Method: GET  
+Access: public  
+Path: /article/:id?query=params
+
+### Query:
+
+    - expand (default none) - possible values [author, comment]
+
+### Response
+
+    - 200
+      - data
+        - id
+        - title
+        - cover
+        - body
+        - timestamps
+        - author (optional)
+        - comments (optional)
+      - links
+    - 404
+      - message
+    - 400
+      - message
+      - possible solution
+
+</details>
+
+<details>
+  <summary>Update article using put</summary>
+
+Method: PUT  
+Access: private  
+path: /article/:id
+
+### Request Body
+
+    - id (optional)
+    - title
+    - body
+    - cover
+    - status (default draft)
+
+### Response
+
+    - 200 of 201
+      - message
+      - article
+      - links
+        - self
+    - 400
+      - message
+      - data (list of article)
+        - field
+        - message
+    - 401
+      - message
+
+</details>
+
+<details>
+  <summary>Update existing article using patch</summary>
+
+Method: PATCH  
+Access: private  
+path: /article/:id
+
+### Request Body
+
+    - id (optional)
+    - title (optional)
+    - body (optional)
+    - cover (optional)
+    - status (default draft) (optional)
+
+### Response
+
+    - 200
+      - message
+      - article
+      - links
+        - self
+    - 400
+      - message
+      - data (list of article)
+        - field
+        - message
+    - 401
+      - message
+    - 404
+      - message
+
+</details>
+<details>
+  <summary>Delete an existing article</summary>
+
+<hr/>
+
+Method: DELETE  
+Access: private  
+path: /article/:id
+
+### Response
+
+    - 204
+      - message
+    - 401
+      - message
+    - 404
+      - message
+
+</details>
+
+<details>
+  <summary>Get all comment for give article</summary>
+
+<hr/>
+
+Method: GET  
+Access: public  
+path: /article/:id/comments
+
+### query
+
+    - page
+    - limit
+
+### Response
+
+    - 200
+      - data (list of comments)
+        - body
+        - timestamps
+        - author
+          - id
+          - name
+      - pagination
+        - page
+        - limit
+        - nextPage
+        - prevPage
+        - totalPage
+        - totalComment
+      - links
+        - self
+        - article
+        - author
+        - nextPage
+        - prevPage
+        - article
+    - 404
+      - message
+
+</details>
+<details>
+  <summary>Get author of the given article</summary>
+
+<hr/>
+
+Method: GET  
+Access: public  
+path: /article/:id/author
+
+### Response
+
+    - 200
+      - data (author)
+        - name
+        - email
+      - links
+        - self
+        - article
+    - 404
+      - message
+
+</details>
+
 # OpenAPI Specification (Study Own-self)
 
 https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.1.md
 
 https://swagger.io/docs/specification/about/
+
+### Bonus (doc):
+
+- https://curl.se/docs/

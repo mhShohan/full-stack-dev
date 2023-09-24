@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: Testing OAS
+  version: 0.1.0
+  description: First time on OAS
+  termsOfService: https://example.com
+  contact:
+    name: mhShohan
+    url: https://mhshohan.netlyfy.app
+    email: mshohanhasan@gmail.com
+  license: 
+    name: MIT
+    url: https://www.google.com
+servers: 
+  - url: http://localhost:5000/api/v1
+    description: dev
+  - url: https://example.com/api/v1
+    description: prod
+paths:
+  /health:
+    get:
+      tags: 
+        - Health
+      description: Return health of the API
+      responses: 
+        '200':
+          description: Return success message
+          content:
+            application/json: 
+              schema: 
+                type: object
+                properties: 
+                  message:
+                    type: string
+                    example: OK
+        '500':
+          description: Server Error occcuered
+          content:
+            application/json: 
+              schema: 
+                type: object
+                properties: 
+                  message:
+                    type: object
+                    example: Server Error!
+
+          
