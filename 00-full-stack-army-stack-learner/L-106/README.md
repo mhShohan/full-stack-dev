@@ -424,12 +424,38 @@ path: /article/:id/author
       - message
 
 </details>
+<details>
+  <Summary>Create New Article for given article</Summary>
+</details>
+
+### Comment
+
+- Get all comments
+- create a comment
+- update a comment
+- delete a comment
+
+### User
+
+- Get all user
+- get single user
+- create a user
+- update a user
+- delete a user
+- change password
+
+### Auth
+
+- register new account
+- login to existing account
 
 # OpenAPI Specification (Study Own-self)
 
 https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.1.md
 
 https://swagger.io/docs/specification/about/
+
+[Swagger Editor](https://editor-next.swagger.io/)
 
 ### Bonus (doc):
 
