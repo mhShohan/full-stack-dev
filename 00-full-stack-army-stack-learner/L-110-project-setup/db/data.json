@@ -1,0 +1,42 @@
+{
+  "users": [],
+  "articles": [
+    {
+      "id": 1,
+      "authorId": 1,
+      "title": "first article",
+      "body": "this is the body of the first article",
+      "cover": "http://localhost:4000/img/ac.jpg",
+      "createdAt": "2023-09-26T22:14:50.759Z",
+      "updatedAt": "2023-09-26T22:14:50.759Z"
+    },
+    {
+      "id": 2,
+      "authorId": 1,
+      "title": "second article",
+      "body": "this is the body of the second article",
+      "cover": "http://localhost:4000/img/ac.jpg",
+      "createdAt": "2023-09-26T22:14:50.759Z",
+      "updatedAt": "2023-09-26T22:14:50.759Z"
+    },
+    {
+      "id": 3,
+      "authorId": 1,
+      "title": "third article",
+      "body": "this is the body of the third article",
+      "cover": "http://localhost:4000/img/ac.jpg",
+      "createdAt": "2023-09-26T22:14:50.759Z",
+      "updatedAt": "2023-09-26T22:14:50.759Z"
+    },
+    {
+      "id": 4,
+      "authorId": 1,
+      "title": "fourth article",
+      "body": "this is the body of the fourth article",
+      "cover": "http://localhost:4000/img/ac.jpg",
+      "createdAt": "2023-09-27T08:56:58.612Z",
+      "updatedAt": "2023-09-27T08:56:58.612Z"
+    }
+  ],
+  "comments": []
+}
