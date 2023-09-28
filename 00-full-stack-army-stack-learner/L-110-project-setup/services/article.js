@@ -1,11 +1,10 @@
 const Article = require('../models/Article');
+const databaseConnection = require('../db');
 
 const handler = {};
 
 handler.findArticles = async ({ page = 1, limit = 10, sortType = 'asc', sortBy = 'updatedAt', searchTerm = '' }) => {
-    const articleInstance = new Article();
-    await articleInstance.init();
-
+    const articleInstance = new Article(databaseConnection.db.articles);
     let articles;
 
     //filter by search term
@@ -45,6 +44,11 @@ handler.transformedArticleToResponse = (articles) => {
 
         return transformed;
     });
+};
+
+handler.createArticle = ({ title, body, cover = '', status = 'draft' }) => {
+
+
 };
 
 module.exports = handler;

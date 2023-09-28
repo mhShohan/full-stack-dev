@@ -1,13 +1,7 @@
 const connection = require('../db.js');
 
 class Article {
-    constructor() {
-        this.articles = [];
-        // this.init();
-    }
-
-    async init() {
-        let { articles } = await connection.get();
+    constructor(articles) {
         this.articles = articles;
     }
 

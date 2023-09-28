@@ -3,6 +3,7 @@ const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
 require('dotenv').config();
 const OpenApiValidator = require('express-openapi-validator');
+const databaseConnection = require('./db');
 
 // express APP
 const app = express();
@@ -37,4 +38,10 @@ app.use((err, _req, res, _next) => {
 });
 
 // server listening
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+(async () => {
+    await databaseConnection.connect();
+    console.log('Database Connected!');
+    app.listen(PORT, () => {
+        console.log(`http://localhost:${PORT}`);
+    });
+})();
