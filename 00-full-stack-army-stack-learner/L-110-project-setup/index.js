@@ -16,6 +16,13 @@ app.use(
         apiSpec: './swagger.yaml',
     }),
 );
+app.use((req, res, next) => {
+    req.user = {
+        id: 9999,
+        name: 'mh'
+    };
+    next();
+});
 
 // health route
 app.get('/health', (_req, res) => {

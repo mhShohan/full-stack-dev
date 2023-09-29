@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const articleControllers = require('../controllers/articles');
+const articleControllers = require('../controllers/articlesController');
 
-router.use('/', articleControllers.getArticles);
-router.post('/', (req, res) => { });
+router.get('/', articleControllers.getArticles);
+router.post('/', articleControllers.createArticle);
 router.get('/:id', (req, res) => { });
 router.put('/:id', (req, res) => { });
 router.patch('/:id', (req, res) => { });

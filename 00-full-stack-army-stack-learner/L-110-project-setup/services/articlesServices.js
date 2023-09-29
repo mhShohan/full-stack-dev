@@ -15,6 +15,7 @@ handler.findArticles = async ({ page = 1, limit = 10, sortType = 'asc', sortBy =
     }
 
     // sort
+    articles = [...articles];
     articles = await articleInstance.sort(articles, sortType, sortBy);
 
     // pagination 
@@ -39,6 +40,7 @@ handler.findArticles = async ({ page = 1, limit = 10, sortType = 'asc', sortBy =
 handler.transformedArticleToResponse = (articles) => {
     return articles.map(article => {
         const transformed = { ...article };
+        delete transformed.authorId;
         transformed.author = { id: article.authorId, name: 'TODO' };
         transformed.link = `/articles/${transformed.id}`;
 
@@ -46,9 +48,11 @@ handler.transformedArticleToResponse = (articles) => {
     });
 };
 
-handler.createArticle = ({ title, body, cover = '', status = 'draft' }) => {
+handler.create = async ({ title, body, cover = '', status = 'draft', authorId }) => {
+    const articleInstance = new Article(databaseConnection.db.articles);
+    const article = await articleInstance.create({ title, body, cover, status, authorId }, databaseConnection);
 
-
+    return article;
 };
 
 module.exports = handler;

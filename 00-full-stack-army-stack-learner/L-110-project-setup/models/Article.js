@@ -1,5 +1,3 @@
-const connection = require('../db.js');
-
 class Article {
     constructor(articles) {
         this.articles = articles;
@@ -7,6 +5,18 @@ class Article {
 
     async find() {
         return this.articles;
+    }
+
+    async create(article, databaseConnection) {
+        article.id = this.articles[this.articles.length - 1].id + 1;
+        article.createdAt = new Date().toISOString();
+        article.updatedAt = new Date().toISOString();
+        this.articles.push(article);
+
+        databaseConnection.db.articles = this.articles;
+        await databaseConnection.write();
+
+        return article;
     }
 
     async findById(id) {

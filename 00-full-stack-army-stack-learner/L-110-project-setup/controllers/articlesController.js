@@ -1,4 +1,4 @@
-const articleServices = require('../services/article');
+const articleServices = require('../services/articlesServices');
 
 const handler = {};
 
@@ -32,6 +32,27 @@ handler.getArticles = async (req, res) => {
         responses.links.next = `/articles?page=${page + 1}&limit=${limit}`;
     }
     res.status(200).json(responses);
+};
+
+handler.createArticle = async (req, res) => {
+    // step: 1, extract incoming data
+    const { title, body, cover, status, } = req.body;
+
+    // step: 2, invoke the service function
+    const article = await articleServices.create({ title, body, cover, status, authorId: req.user.id });
+
+    // step: 3, generate response
+    const response = {
+        code: 201,
+        message: 'Article Created Successfully',
+        data: article,
+        links: {
+            self: `${req.url}/${article.id}`,
+            author: `${req.url}/${article.id}/author`,
+            comment: `${req.url}/${article.id}/comment`,
+        }
+    };
+    res.status(201).json(response);
 };
 
 module.exports = handler;
