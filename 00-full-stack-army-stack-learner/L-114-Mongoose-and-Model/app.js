@@ -4,7 +4,7 @@ const YAML = require('yamljs');
 require('dotenv').config();
 const OpenApiValidator = require('express-openapi-validator');
 const mongoose = require('mongoose');
-const { seedUser } = require('./seed');
+// const { seedUser } = require('./seed');
 
 
 // express APP
@@ -33,7 +33,7 @@ app.get('/health', (_req, res) => {
 });
 
 // routes 
-app.use('/api/v1', require('./routes'));
+app.use('/api/v1', require('./src/routes'));
 
 
 // error handler middleware
