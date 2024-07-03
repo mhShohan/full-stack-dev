@@ -1,0 +1,45 @@
+version: '3'
+services:
+  node_lb1:
+    image: test_node_lb
+    build: .
+    ports:
+      - '3000:3000'
+    networks:
+      - lb_net
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    networks:
+      - lb_net
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - node_lb1
+    restart: always
+
+  node_lb2:
+    image: test_node_lb
+    build: .
+    ports:
+      - '3001:3000'
+    networks:
+      - lb_net
+    depends_on:
+      - nginx
+
+  node_lb3:
+    image: test_node_lb
+    build: .
+    ports:
+      - '3002:3000'
+    networks:
+      - lb_net
+    depends_on:
+      - nginx
+
+networks:
+  lb_net:
+    driver: bridge
