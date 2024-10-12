@@ -1,10 +1,9 @@
-import express, { Application } from 'express'
+import express from 'express'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 import cors from 'cors'
-import { createInventory } from '@/controllers'
 
-const app: Application = express()
+const app = express()
 dotenv.config()
 
 app.use(express.json())
@@ -12,12 +11,10 @@ app.use(cors())
 app.use(morgan('dev'))
 
 // environment variables
-const PORT = process.env.PORT || 4002
-const serviceName = process.env.SERVICE_NAME || 'inventory-service'
-
+const PORT = process.env.PORT || 4000
+const serviceName = process.env.SERVICE_NAME || 'service_name'
 
 // routes
-app.post('/inventories', createInventory as any)
 
 
 // health route
@@ -29,6 +26,7 @@ app.get('/health', (_req, res) => {
     message: `${serviceName} is UP now!`
   })
 })
+
 
 // not Found
 app.use((_req, res) => {
@@ -42,8 +40,6 @@ app.use((_req, res) => {
 
 // error handler
 app.use((err, _req, res, _next) => {
-  console.log(err.stack)
-
   res.status(500).json({
     status: 'failure',
     statusCode: 500,

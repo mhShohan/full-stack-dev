@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Inventory {
+  id        String    @id @default(cuid())
+  sku       String    @unique
+  productId String    @unique
+  quantity  Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  histories History[]
+}
+
+model History {
+  id              String     @id @default(cuid())
+  actionType      ActionType
+  quantityChanged Int
+  newQuantity     Int
+  lastQuantity    Int
+  inventory       Inventory  @relation(fields: [inventoryId], references: [id])
+  inventoryId     String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+enum ActionType {
+  IN
+  OUT
+}
