@@ -1,8 +1,15 @@
-import express, { Application } from 'express'
+import express, { Application, RequestHandler } from 'express'
 import dotenv from 'dotenv'
 import morgan from 'morgan'
 import cors from 'cors'
-import { createInventory } from '@/controllers'
+import {
+  createInventory,
+  deleteInventory,
+  getAllInventories,
+  getInventoryDetails,
+  getSingleInventoryById,
+  updateInventory
+} from '@/controllers'
 
 const app: Application = express()
 dotenv.config()
@@ -17,7 +24,12 @@ const serviceName = process.env.SERVICE_NAME || 'inventory-service'
 
 
 // routes
-app.post('/inventories', createInventory as any)
+app.put('/inventories/:id', updateInventory as RequestHandler)
+app.get('/inventories/:id', getSingleInventoryById as RequestHandler)
+app.delete('/inventories/:id', deleteInventory as RequestHandler)
+app.get('/inventories/:id/details', getInventoryDetails as RequestHandler)
+app.post('/inventories', createInventory as RequestHandler)
+app.get('/inventories', getAllInventories as RequestHandler)
 
 
 // health route

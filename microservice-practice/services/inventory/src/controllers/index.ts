@@ -1,1 +1,6 @@
 export { default as createInventory } from './createInventory'
+export { default as updateInventory } from './updateInventory'
+export { default as getSingleInventoryById } from './getSingleInventoryById'
+export { default as getInventoryDetails } from './getInventoryDetails'
+export { default as getAllInventories } from './getAllInventories'
+export { default as deleteInventory } from './deleteInventory'
