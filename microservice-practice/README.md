@@ -1,4 +1,4 @@
-# Microservices Practice - video (day-2) timestamp: 01.57.00
+# Microservices Practice - video (day-2) timestamp: 02.20.00
 
 # CLI
 
