@@ -1,0 +1,14 @@
+# Use the official Redis image as the base image
+FROM redis:7-alpine
+
+# Set a working directory
+# WORKDIR /usr/local/etc/redis
+
+# Copy custom configuration file (if you have one)
+# COPY redis.conf ./
+
+# Expose Redis default port
+EXPOSE 6379
+
+# Start Redis with the custom configuration
+# CMD ["redis-server", "/usr/local/etc/redis/redis.conf"]

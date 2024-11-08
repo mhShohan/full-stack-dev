@@ -1,0 +1,13 @@
+# Use the official PostgreSQL image as the base image
+FROM postgres:15-alpine
+
+# Set environment variables for default database configuration
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=postgres
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# The default command to run PostgreSQL is already set in the base image
+# CMD ["postgres"]
