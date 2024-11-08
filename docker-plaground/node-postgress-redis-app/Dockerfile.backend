@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Set environment variables
-ENV PORT=5000
+# ENV PORT=5000
 # ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo-app?schema=public"
 # ENV REDIS_URL="redis://localhost:6379"
 # ENV DATABASE_URL=my-postgres-container

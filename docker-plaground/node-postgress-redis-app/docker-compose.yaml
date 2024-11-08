@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.compose
+    container_name: my-backend-app-container
+    networks:
+      - my-app-network
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - PORT=5000
+      - DATABASE_URL="postgresql://postgres:postgres@my-postgres-container:5432/todo-app?schema=public"
+      - REDIS_URL="redis://my-redis-container:6379"
+      - REDIS_CACHE_EXPIRATION=3600
+
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    container_name: my-postgres-container
+    networks:
+      - my-app-network
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile.redis
+    container_name: my-redis-container
+    networks:
+      - my-app-network
+    ports:
+      - '6379:6379'
+
+networks:
+  my-app-network:
+    driver: bridge
