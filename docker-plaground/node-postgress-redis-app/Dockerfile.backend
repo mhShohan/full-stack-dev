@@ -3,9 +3,12 @@ FROM node:18-alpine
 
 # Set environment variables
 ENV PORT=5000
-ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo-app?schema=public"
-ENV REDIS_URL="redis://localhost:6379"
-ENV REDIS_CACHE_EXPIRATION=3600
+# ENV DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo-app?schema=public"
+# ENV REDIS_URL="redis://localhost:6379"
+# ENV DATABASE_URL=my-postgres-container
+# ENV DATABASE_URL="postgresql://postgres:postgres@${my-postgres-container}/todo-app?schema=public"
+# ENV REDIS_URL=my-redis-container
+# ENV REDIS_CACHE_EXPIRATION=3600
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -22,8 +25,18 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+ENV PORT=5000
+ENV DATABASE_URL="postgresql://postgres:postgres@my-postgres-container:5432/todo-app?schema=public"
+ENV REDIS_URL="redis://my-redis-container:6379"
+ENV REDIS_CACHE_EXPIRATION=3600
+
+# RUN npx prisma migrate dev --name init
+RUN npx prisma generate
+
 # Expose the port the app runs on
 EXPOSE 5000
 
 # Define the command to run the app
-CMD ["npm","run","dev"]
+# CMD ["npm","run","dev"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run dev"]
+

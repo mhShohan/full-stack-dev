@@ -1,18 +1,27 @@
 # Variables
-BACKEND_IMAGE=my-node-app
+NETWORK=my-app-network
+BACKEND_IMAGE=my-app-image
 POSTGRES_IMAGE=my-postgres
 REDIS_IMAGE=my-redis
-BACKEND_CONTAINER=my-node-app-container
+BACKEND_CONTAINER=my-app-container
 POSTGRES_CONTAINER=my-postgres-container
 REDIS_CONTAINER=my-redis-container
+
+# Create Docker network
+create-network:
+	docker network create $(NETWORK) || true
 
 # Build backend image
 build-backend:
 	docker build -t $(BACKEND_IMAGE) -f Dockerfile.backend .
 
-# Run backend container in detached mode
+# Run backend container
 run-backend:
-	docker run --name $(BACKEND_CONTAINER) -d -p 5000:5000 $(BACKEND_IMAGE)
+	docker run --name $(BACKEND_CONTAINER) --network $(NETWORK) -p 5000:5000 $(BACKEND_IMAGE)
+
+# Run backend container in detached mode
+run-backend-detached:
+	docker run --name $(BACKEND_CONTAINER) --network $(NETWORK) -d -p 5000:5000 $(BACKEND_IMAGE)
 
 # Build PostgreSQL image
 build-postgres:
@@ -20,7 +29,7 @@ build-postgres:
 
 # Run PostgreSQL container
 run-postgres:
-	docker run -d -p 5432:5432 --name $(POSTGRES_CONTAINER) $(POSTGRES_IMAGE)
+	docker run -d --name $(POSTGRES_CONTAINER) --network $(NETWORK) -p 5432:5432 $(POSTGRES_IMAGE)
 
 # Build Redis image
 build-redis:
@@ -28,7 +37,7 @@ build-redis:
 
 # Run Redis container
 run-redis:
-	docker run --name $(REDIS_CONTAINER) -d -p 6379:6379 $(REDIS_IMAGE)
+	docker run -d --name $(REDIS_CONTAINER) --network $(NETWORK) -p 6379:6379 $(REDIS_IMAGE)
 
 # Stop and remove all containers
 stop-containers:
@@ -41,23 +50,32 @@ remove-containers:
 remove-images:
 	docker rmi $(BACKEND_IMAGE) $(POSTGRES_IMAGE) $(REDIS_IMAGE) || true
 
+# Remove network
+remove-network:
+	docker network rm $(NETWORK) || true
+
 #------------------------------------------------------
 #------------------------------------------------------
 #------------------------------------------------------
 # Full build (backend, postgres, redis)
 build:
-	make build-backend
+	make create-network
 	make build-postgres
 	make build-redis
+	make build-backend
+	echo "Build completed successfully"
 
 # Full run (backend, postgres, redis)
 run:
-	make run-backend
 	make run-postgres
 	make run-redis
+	make run-backend
+	echo "Run all container successfully"
 
 # Full clean up (stop, remove containers, remove images)
 clean:
 	make stop-containers
 	make remove-containers
 	make remove-images
+	make remove-network
+	echo "Clean up completed successfully"

@@ -1,7 +1,5 @@
 # Run PostgreSQL and redis using Dockerfile and build the image to run this application
 
-## 00.30
-
 # Used Commands:
 
 ```bash
@@ -26,3 +24,8 @@ docker build -t my-redis -f Dockerfile.redis .
 # Run the image
 docker run --name my-redis-container -d -p 6379:6379 my-redis
 ```
+
+# To run prisma migrate
+
+- `docker exec -it my-app-container sh` - to get into the container
+- `npx prisma migrate dev --name init` - to run the migration
