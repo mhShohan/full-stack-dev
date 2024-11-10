@@ -1,0 +1,51 @@
+services:
+  mongodb:
+    image: 'mongo'
+    volumes:
+      - my-db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongodb
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+
+    env_file:
+      - ./server/.env
+
+  my-backend-container:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+
+    ports:
+      - '5000:5000'
+
+    volumes:
+      - app-logs:/app/logs #named volume
+      - ./server:/app #bind mount
+      - /app/node_modules #anonymous volume
+
+    env_file:
+      - ./server/.env
+
+    depends_on:
+      - mongodb
+
+  my-frontend-conatiner:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+
+    ports:
+      - '3000:3000'
+
+    volumes:
+      - ./client:/app
+
+    env_file:
+      - ./client/.env.local
+
+    depends_on:
+      - my-backend-container
+
+volumes:
+  my-db:
+  app-logs:
