@@ -1,0 +1,30 @@
+{
+  "name": "ai-todo-app-openai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "studio": "drizzle-kit studio",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.12.0",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.39.0",
+    "express": "^4.21.2",
+    "openai": "^4.80.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.11",
+    "drizzle-kit": "^0.30.3",
+    "nodemon": "^3.1.9",
+    "tsx": "^4.19.2"
+  }
+}
