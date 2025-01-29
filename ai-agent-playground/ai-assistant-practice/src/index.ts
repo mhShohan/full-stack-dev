@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import morgan from 'morgan'
 import cors from 'cors'
 import router from './routes'
+import mongoose from 'mongoose'
+import config from './utils/config'
 
 const app: Application = express()
 dotenv.config()
@@ -39,6 +41,8 @@ app.use((err, _req, res, _next) => {
   })
 })
 
-app.listen(PORT, () => {
-  console.log(`Server running on port: ${PORT}`)
+mongoose.connect(config.database_url!).then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port: ${PORT}`)
+  })
 })
