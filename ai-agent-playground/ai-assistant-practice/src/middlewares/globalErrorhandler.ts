@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import { ZodError } from 'zod';
 import mongoose from 'mongoose';
 import { ErrorRequestHandler } from 'express';
-import config from '../config';
 import zodErrorSanitize from '../errorHandler/zodErrorSanitize';
 import STATUS from '../lib/httpStatus';
 import validationError from '../errorHandler/validationError';
 import castError from '../errorHandler/castError';
 import handleCustomError from '../errorHandler/handleCustomError';
 import CustomError from '../errorHandler/customError';
+import config from '@/utils/config';
 
 const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   const errorResponse = {
@@ -17,7 +15,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     statusCode: 500,
     message: 'Internal Server Error!',
     errors: {},
-    stack: config.NODE_ENV === 'dev' ? err.stack : null,
+    stack: config.nodeEnv === 'dev' ? err.stack : null,
   };
 
   // console.log(err);
