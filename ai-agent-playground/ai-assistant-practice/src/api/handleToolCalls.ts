@@ -4,24 +4,34 @@ async function handleToolCalls(toolCall) {
   const functionName = toolCall.function.name;
   const args = JSON.parse(toolCall.function.arguments);
 
+  let data;
+
   console.log('--------------toolCall----------------------');
   console.log(toolCall);
   console.log('--------------toolCall----------------------');
 
   switch (functionName) {
     case 'create_task':
-      return await taskServices.create(args.todo);
+      data = await taskServices.create(args);
+      break;
     case 'get_all_tasks':
-      return await taskServices.getAll(args.todo);
+      data = await taskServices.getAll(args);
+      break;
     case 'get_single_task':
-      return await taskServices.getSingle(args.search);
+      data = await taskServices.getSingle(args.id);
+      break;
     case 'update_task':
-      return await taskServices.update(args.id, args.todo);
+      data = await taskServices.update(args.id, args);
+      break;
     case 'delete_task':
-      return await taskServices.delete(args.id);
+      data = await taskServices.delete(args.id);
+      break;
     default:
-      throw new Error(`Unknown function: ${functionName}`);
+      data = [];
+      break;
   }
+
+  return data;
 }
 
 export default handleToolCalls;
