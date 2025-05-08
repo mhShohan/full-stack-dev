@@ -8,7 +8,7 @@ const openai = new OpenAI({
 async function chatWithDeepSeek() {
   try {
     const response = await openai.chat.completions.create({
-      model: "deepseek-coder",
+      model: "qwen2.5:0.5b",
       messages: [
         { role: "system", content: "You are an AI that strictly responds in valid JSON format." },
         { role: "user", content: "Generate a JavaScript function to reverse a string and return in JSON format." }
