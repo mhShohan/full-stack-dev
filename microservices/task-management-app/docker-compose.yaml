@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  mongo_db:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongodb-microservices
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - default
+    restart: unless-stopped
+    # healthcheck:
+    #   test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 40s
+
+  rabbit_mq:
+    image: rabbitmq:3.9-management
+    container_name: rabbitmq-microservices
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - default
+    restart: unless-stopped
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - '5001:5001'
+    env_file:
+      - ./user-service/.env
+    environment:
+      - MONGODB_URI=mongodb://mongo_db:27017/user-service-5001?directConnection=true
+      - NODE_ENV=development
+    volumes:
+      - ./user-service:/app
+      - /app/node_modules
+    command: sh -c "sleep 5 && pnpm run dev"
+    depends_on:
+      - mongo_db
+        # condition: service_healthy
+    networks:
+      - default
+    restart: unless-stopped
+
+  task-service:
+    build:
+      context: ./task-service
+      dockerfile: Dockerfile
+    ports:
+      - '5002:5002'
+    env_file:
+      - ./task-service/.env
+    environment:
+      - MONGODB_URI=mongodb://mongo_db:27017/task-service-5002?directConnection=true
+      - NODE_ENV=development
+    volumes:
+      - ./task-service:/app
+      - /app/node_modules
+    command: sh -c "sleep 5 && pnpm run dev"
+    depends_on:
+      - mongo_db
+        # condition: service_healthy
+      - rabbit_mq
+    networks:
+      - default
+    restart: unless-stopped
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./notification-service:/app
+      - /app/node_modules
+    command: sh -c "sleep 5 && pnpm run dev"
+    depends_on:
+      - rabbit_mq
+    networks:
+      - default
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
