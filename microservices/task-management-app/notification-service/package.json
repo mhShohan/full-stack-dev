@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.25.0",
+  "packageManager": "npm@9.6.7",
   "dependencies": {
     "amqplib": "^0.10.9"
   },

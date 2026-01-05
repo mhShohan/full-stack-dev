@@ -1,11 +1,11 @@
 FROM node:22-alpine
 
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json ./
 
-RUN npm install -g pnpm && npm cache clean --force && pnpm install --frozen-lockfile
+RUN npm install
 
 COPY . .
 
-EXPOSE 5003
-CMD ["pnpm", "start"]
+EXPOSE 5006
+CMD ["npm", "start"]
