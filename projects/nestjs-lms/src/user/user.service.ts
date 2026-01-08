@@ -18,4 +18,8 @@ export class UserService {
       }
     }
   }
+
+  async findByEmail(email: string) {
+    return this.userModel.findOne({ email }).lean();
+  }
 }
