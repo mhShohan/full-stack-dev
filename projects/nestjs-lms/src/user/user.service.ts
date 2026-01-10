@@ -22,4 +22,12 @@ export class UserService {
   async findByEmail(email: string) {
     return this.userModel.findOne({ email }).lean();
   }
+
+  async findById(id: string) {
+    return this.userModel.findById(id).select('-password').lean();
+  }
+
+  async findAll() {
+    return this.userModel.find().select('-password').lean();
+  }
 }
