@@ -1,12 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import { VerifyRoles } from '../auth/role.decorators';
+import { Role } from '../user/user.types';
+import { RolesGuard } from '../auth/roles.guard';
 
 @Controller('courses')
 export class CourseController {
   constructor(private readonly courseService: CourseService) { }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @VerifyRoles(Role.ADMIN)
   @Post()
   async create(@Body() createCourseDto: CreateCourseDto) {
     const result = await this.courseService.create(createCourseDto);
